@@ -275,6 +275,25 @@
         .settings-columns { display: flex; gap: 25px; }
         .settings-column { flex: 1; }
 
+        .sound-settings div {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sound-settings label {
+            min-width: 80px; /* Adjust as needed */
+            white-space: nowrap;
+        }
+        .sound-settings input[type="range"] {
+            flex-grow: 1;
+            width: auto;
+        }
+        .sound-settings span {
+            min-width: 30px;
+            text-align: right;
+        }
+
         /* チャット履歴リスト表示用 */
         #chat-history-list-modal .modal-content { max-width: 900px; }
         #chat-history-search-input {
@@ -516,6 +535,12 @@
             .csv-buttons-container button, .csv-buttons-container label {
                 width: 100%;
                 box-sizing: border-box;
+            }
+            .sound-settings div {
+                flex-wrap: wrap;
+            }
+            .sound-settings label {
+                flex-basis: 100%;
             }
 
             #chat-history-search-input {
@@ -774,6 +799,23 @@
                             <label for="tts-voice-select">音声の種類:</label>
                             <select id="tts-voice-select"></select>
                         </div>
+                        <!-- ここから追加 -->
+                        <div>
+                            <label for="tts-rate-input">速度:</label>
+                            <input type="range" id="tts-rate-input" min="0.1" max="2" step="0.1" value="1">
+                            <span id="tts-rate-value">1.0</span>
+                        </div>
+                        <div>
+                            <label for="tts-pitch-input">ピッチ:</label>
+                            <input type="range" id="tts-pitch-input" min="0" max="2" step="0.1" value="1">
+                            <span id="tts-pitch-value">1.0</span>
+                        </div>
+                        <div>
+                            <label for="tts-volume-input">音量:</label>
+                            <input type="range" id="tts-volume-input" min="0" max="1" step="0.1" value="1">
+                            <span id="tts-volume-value">1.0</span>
+                        </div>
+                        <!-- ここまで追加 -->
                     </div>
                 </div>
             </div>
@@ -959,6 +1001,14 @@
     // TTS関連のDOM要素
     const ttsOnOff = document.getElementById('tts-on-off');
     const ttsVoiceSelect = document.getElementById('tts-voice-select');
+    // ↓ここから追加↓
+    const ttsRateInput = document.getElementById('tts-rate-input');
+    const ttsRateValue = document.getElementById('tts-rate-value');
+    const ttsPitchInput = document.getElementById('tts-pitch-input');
+    const ttsPitchValue = document.getElementById('tts-pitch-value');
+    const ttsVolumeInput = document.getElementById('tts-volume-input');
+    const ttsVolumeValue = document.getElementById('tts-volume-value');
+    // ↑ここまで追加↑
 
 
     // グローバル変数
@@ -972,6 +1022,11 @@
     let ttsEnabled = true;
     let selectedTtsVoice = null;
     let availableVoices = [];
+    // ↓ここから追加↓
+    let ttsRate = 1.0;
+    let ttsPitch = 1.0;
+    let ttsVolume = 1.0;
+    // ↑ここまで追加↑
 
 
     // --- 初期化処理 ---
@@ -993,7 +1048,7 @@
         if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
             micButton.style.display = 'none';
         }
-        loadSettingsFromLocalStorage();
+        loadSettingsFromLocalStorage(); // 新しいTTSパラメータもここで読み込む
 
         sortBySelect.value = currentSortBy;
         sortOrderIcon.textContent = (currentSortOrder === 'asc' ? '↑' : '↓');
@@ -1213,6 +1268,21 @@
         selectedTtsVoice = availableVoices.find(voice => voice.name === selectedName) || null;
         localStorage.setItem('ttsVoiceName', selectedName);
     });
+
+    // ↓ここから追加↓
+    ttsRateInput.addEventListener('input', () => {
+        ttsRate = parseFloat(ttsRateInput.value);
+        ttsRateValue.textContent = ttsRate.toFixed(1);
+    });
+    ttsPitchInput.addEventListener('input', () => {
+        ttsPitch = parseFloat(ttsPitchInput.value);
+        ttsPitchValue.textContent = ttsPitch.toFixed(1);
+    });
+    ttsVolumeInput.addEventListener('input', () => {
+        ttsVolume = parseFloat(ttsVolumeInput.value);
+        ttsVolumeValue.textContent = ttsVolume.toFixed(1);
+    });
+    // ↑ここまで追加↑
 
 
     // --- チャット関連の関数 ---
@@ -1839,6 +1909,11 @@
             soundType: soundTypeSelect.value,
             ttsEnabled: ttsOnOff.checked,
             ttsVoiceName: ttsVoiceSelect.value,
+            // ↓ここから追加↓
+            ttsRate: ttsRate,
+            ttsPitch: ttsPitch,
+            ttsVolume: ttsVolume,
+            // ↑ここまで追加↑
         };
 
         const csvRows = ['"Key","Value"'];
@@ -1903,6 +1978,17 @@
                 if (ttsVoiceSelect) {
                     ttsVoiceSelect.value = settings.ttsVoiceName || '';
                 }
+                // ↓ここから追加↓
+                ttsRate = parseFloat(settings.ttsRate) || 1.0;
+                ttsPitch = parseFloat(settings.ttsPitch) || 1.0;
+                ttsVolume = parseFloat(settings.ttsVolume) || 1.0;
+                ttsRateInput.value = ttsRate;
+                ttsRateValue.textContent = ttsRate.toFixed(1);
+                ttsPitchInput.value = ttsPitch;
+                ttsPitchValue.textContent = ttsPitch.toFixed(1);
+                ttsVolumeInput.value = ttsVolume;
+                ttsVolumeValue.textContent = ttsVolume.toFixed(1);
+                // ↑ここまで追加↑
 
                 saveSettingsToLocalStorage();
                 loadVoices();
@@ -1999,6 +2085,11 @@
         localStorage.setItem('soundType', soundTypeSelect.value);
         localStorage.setItem('ttsEnabled', ttsOnOff.checked);
         localStorage.setItem('ttsVoiceName', ttsVoiceSelect.value);
+        // ↓ここから追加↓
+        localStorage.setItem('ttsRate', ttsRate.toString());
+        localStorage.setItem('ttsPitch', ttsPitch.toString());
+        localStorage.setItem('ttsVolume', ttsVolume.toString());
+        // ↑ここまで追加↑
     }
 
     function loadSettingsFromLocalStorage() {
@@ -2015,6 +2106,18 @@
         if (ttsVoiceSelect && savedVoiceName) {
             ttsVoiceSelect.value = savedVoiceName;
         }
+        // ↓ここから追加↓
+        ttsRate = parseFloat(localStorage.getItem('ttsRate')) || 1.0;
+        ttsPitch = parseFloat(localStorage.getItem('ttsPitch')) || 1.0;
+        ttsVolume = parseFloat(localStorage.getItem('ttsVolume')) || 1.0;
+
+        ttsRateInput.value = ttsRate;
+        ttsRateValue.textContent = ttsRate.toFixed(1);
+        ttsPitchInput.value = ttsPitch;
+        ttsPitchValue.textContent = ttsPitch.toFixed(1);
+        ttsVolumeInput.value = ttsVolume;
+        ttsVolumeValue.textContent = ttsVolume.toFixed(1);
+        // ↑ここまで追加↑
     }
 
     // --- ユーティリティ関数 ---
@@ -2198,6 +2301,11 @@
             ttsOnOff.disabled = true;
             ttsVoiceSelect.disabled = true;
             ttsVoiceSelect.innerHTML = '<option value="">音声非対応</option>';
+            // ↓ここから追加↓
+            ttsRateInput.disabled = true;
+            ttsPitchInput.disabled = true;
+            ttsVolumeInput.disabled = true;
+            // ↑ここまで追加↑
             return;
         }
 
@@ -2266,6 +2374,12 @@
             }
         }
         
+        // ↓ここから追加↓
+        utterance.rate = ttsRate;
+        utterance.pitch = ttsPitch;
+        utterance.volume = ttsVolume;
+        // ↑ここまで追加↑
+
         window.speechSynthesis.speak(utterance);
         updateSpeechControlButtonVisibility(); // 発話開始時に音声停止ボタンを表示
 
