@@ -677,7 +677,7 @@
 <body>
 
 <header>
-    <h1>Ｍｙチャット履歴_携帯版 Ver1.09</h1>
+    <h1>Ｍｙチャット履歴_携帯版 Ver1.10</h1>
     <div class="header-controls">
         <div class="header-buttons">
             <button id="persona-button">各種設定</button>
@@ -2362,7 +2362,16 @@
 
         window.speechSynthesis.cancel(); // 新しい発話を開始する前に既存のものを停止
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        // 絵文字とアスタリスクを除去
+        // \p{Emoji} はUnicodeプロパティエスケープで、多くの絵文字にマッチします（uフラグが必要）
+        let speechText = text.replace(/\p{Emoji}/gu, '').replace(/\*/g, '');
+
+        // フィルタリング後にテキストが空になった場合は再生しない
+        if (speechText.trim() === '') {
+            return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(speechText);
         utterance.lang = 'ja-JP';
 
         if (selectedTtsVoice) {
@@ -2386,9 +2395,9 @@
         utterance.onend = () => {
             updateSpeechControlButtonVisibility(); // 発話終了時に音声停止ボタンを非表示
         };
-        utterance.onerror = () => {
+        utterance.onerror = (event) => { // エラー発生時にも音声停止ボタンを非表示
             console.error('TTSエラー:', event.error);
-            updateSpeechControlButtonVisibility(); // エラー発生時にも音声停止ボタンを非表示
+            updateSpeechControlButtonVisibility(); 
         };
     }
 
@@ -2404,3 +2413,4 @@
 
 </body>
 </html>
+```
