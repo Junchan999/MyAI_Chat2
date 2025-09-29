@@ -52,20 +52,42 @@
             flex-wrap: nowrap;
             gap: 10px;
         }
-        .header-buttons button {
-            padding: 8px 15px;
+
+        /* Base Button Styles for a Modern Look */
+        .header-buttons button,
+        .modal-buttons button,
+        .csv-buttons-container button,
+        .csv-buttons-container label,
+        .chat-history-list-footer button,
+        .sort-controls button,
+        #save-edited-message-button,
+        #download-pdf-button {
+            padding: 10px 18px; /* Slightly more padding */
             border: none;
             color: white;
-            border-radius: 20px;
+            border-radius: 25px; /* More rounded */
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Stronger, more modern shadow */
             white-space: nowrap;
+            min-width: 100px; /* Give them a minimum width for consistency */
+            display: inline-flex; /* For better centering of text/icons */
+            justify-content: center;
+            align-items: center;
+            gap: 5px; /* Space between text and icon if any */
         }
-        .header-buttons button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        .header-buttons button:hover,
+        .modal-buttons button:hover,
+        .csv-buttons-container button:hover,
+        .csv-buttons-container label:hover,
+        .chat-history-list-footer button:hover,
+        .sort-controls button:hover,
+        #save-edited-message-button:hover,
+        #download-pdf-button:hover {
+            opacity: 0.95;
+            transform: translateY(-3px); /* Slightly more lift */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Deeper shadow on hover */
         }
 
         /* ヘッダーボタンのデフォルト色 */
@@ -74,17 +96,29 @@
         #new-chat-button,
         #settings-button,
         #help-button {
-            background-color: #ffffff;
-            color: #555;
-            border: 1px solid #ddd;
+            background-color: #f0f0f0; /* Lighter background */
+            color: #444; /* Darker text */
+            border: 1px solid #ccc; /* Softer border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08); /* Lighter shadow */
         }
+        #persona-button:hover,
+        #load-chat-history-button:hover,
+        #new-chat-button:hover,
+        #settings-button:hover,
+        #help-button:hover {
+            background-color: #e0e0e0; /* Darker on hover */
+            color: #222;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+        }
+
         /* 各ヘッダーボタンの個別スタイル */
-        #delete-selected-button { background-color: #f44336; }
-        #edit-selected-button { background-color: #ff9800; }
-        #play-selected-button { background-color: #4CAF50; }
-        #stop-speech-button { background-color: #607d8b; } /* 音声停止ボタンのスタイル */
-        #save-chat-summary-button { background-color: #3cb371; }
-        #print-pdf-button { background-color: #007bff; }
+        #delete-selected-button { background-color: #dc3545; } /* Bootstrap danger red */
+        #edit-selected-button { background-color: #ffc107; color: #333; } /* Bootstrap warning yellow */
+        #play-selected-button { background-color: #28a745; } /* Bootstrap success green */
+        #stop-speech-button { background-color: #6c757d; } /* Bootstrap secondary grey */
+        #save-chat-summary-button { background-color: #007bff; } /* Bootstrap primary blue */
+        #print-pdf-button { background-color: #17a2b8; } /* Bootstrap info teal */
 
 
         .main-container {
@@ -205,15 +239,31 @@
 
         /* 入力欄のアイコンボタンのスタイル (円形) */
         #file-input-button, #mic-button, #send-button {
-            width: 40px; height: 40px; border-radius: 50%; border: none; color: white;
-            cursor: pointer; flex-shrink: 0; font-size: 1.5em; line-height: 40px; text-align: center;
-            display: inline-flex; justify-content: center; align-items: center; transition: background-color 0.3s;
+            width: 48px; /* Slightly larger */
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-size: 1.6em; /* Larger icon */
+            line-height: 48px; /* Center content vertically */
+            text-align: center;
+            display: flex; /* Use flex for perfect centering */
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* Shadow for lift */
             padding: 0;
         }
-        #file-input-button { background-color: #81c784; }
-        #mic-button { background-color: #66cdaa; }
-        #mic-button.recording { background-color: #f08080; }
-        #send-button { background-color: #2196F3; }
+        #file-input-button:hover, #mic-button:hover, #send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #file-input-button { background-color: #4CAF50; } /* Consistent green */
+        #mic-button { background-color: #007bff; } /* Primary blue for mic */
+        #mic-button.recording { background-color: #dc3545; } /* Danger red when recording */
+        #send-button { background-color: #6f42c1; } /* Purple for send */
 
         /* 絵文字ボタンコンテナ */
         .emoji-buttons-container {
@@ -223,24 +273,24 @@
             margin-bottom: 8px;
         }
         .emoji-button {
-            width: 38px;
-            height: 38px;
+            width: 42px; /* Slightly larger */
+            height: 42px;
             border-radius: 50%;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             background-color: #f8f8f8;
             color: #333;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1.4em; /* Larger emoji */
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Softer shadow */
         }
         .emoji-button:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #e8e8e8;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
         }
 
 
@@ -365,50 +415,62 @@
             background-color: #fff;
             font-size: 0.9em;
         }
-        .sort-controls button {
-            background-color: #6c757d;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.3s ease;
+        /* Override specific modal buttons to fit new base style */
+        #save-settings-button, #test-key-button, #save-key-button {
+             background-color: #28a745; /* Green for saving/positive actions */
+             min-width: 100px;
         }
-        .sort-controls button:hover {
-            background-color: #5a6268;
+        #delete-key-button {
+            background-color: #dc3545; /* Red for deletion */
+            min-width: 100px;
         }
-        .sort-order-icon {
-            font-size: 1.1em;
-            vertical-align: middle;
+        .modal-buttons .right-buttons button {
+            background-color: #28a745; /* Consistent green for primary modal actions */
+        }
+        #test-key-button {
+            background-color: #17a2b8; /* Info teal for testing */
         }
 
-        /* CSVエクスポート/インポートボタンのスタイル */
-        .csv-buttons-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-            align-items: center;
-        }
+        /* CSV buttons */
         .csv-buttons-container button, .csv-buttons-container label {
-            padding: 8px 15px;
-            border: none;
-            background-color: #607d8b;
-            color: white;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            white-space: nowrap;
+            background-color: #6f42c1; /* A distinct purple for CSV actions */
+            min-width: 150px;
         }
-        .csv-buttons-container button:hover, .csv-buttons-container label:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        #export-all-history-button {
+            background-color: #20c997; /* A vibrant green-teal for global export */
         }
         #import-csv-input, #import-all-history-input {
             display: none;
+        }
+
+        /* Chat history list footer buttons */
+        .chat-history-list-footer .left-buttons button,
+        .chat-history-list-footer .right-buttons button {
+            min-width: 120px; /* Slightly larger min-width */
+        }
+        #select-all-history-button { background-color: #007bff; }
+        #deselect-all-history-button { background-color: #6c757d; }
+        #load-selected-history-button { background-color: #28a745; }
+        #delete-selected-history-button { background-color: #dc3545; }
+        .sort-controls button {
+            background-color: #6c757d;
+            min-width: unset; /* Don't force min-width here */
+            padding: 8px 12px; /* Adjust padding for smaller button */
+            border-radius: 20px;
+        }
+        .sort-controls button:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #download-pdf-button {
+             background-color: #007bff;
+        }
+
+        .sort-order-icon {
+            font-size: 1.1em;
+            vertical-align: middle;
         }
 
         /* 既存のブレークポイントは維持しつつ、モバイル向けに強化 */
@@ -455,9 +517,11 @@
                 gap: 8px;
             }
             .header-buttons button {
-                padding: 6px 12px;
+                padding: 8px 15px; /* Adjust padding for smaller screens */
                 font-size: 0.9em;
-                min-width: unset;
+                min-width: unset; /* Allow buttons to shrink more */
+                border-radius: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
 
             .main-container {
@@ -485,14 +549,15 @@
 
             /* 入力エリアの調整 */
             .emoji-button {
-                width: 35px;
-                height: 35px;
-                font-size: 1.1em;
+                width: 38px;
+                height: 38px;
+                font-size: 1.2em;
             }
             #file-input-button, #mic-button, #send-button {
-                width: 36px;
-                height: 36px;
-                font-size: 1.3em;
+                width: 44px; /* Slightly smaller for mobile */
+                height: 44px;
+                font-size: 1.4em;
+                line-height: 44px;
             }
             #text-input {
                 min-height: 80px;
@@ -535,6 +600,7 @@
             .csv-buttons-container button, .csv-buttons-container label {
                 width: 100%;
                 box-sizing: border-box;
+                min-width: unset;
             }
             .sound-settings div {
                 flex-wrap: wrap;
@@ -586,8 +652,8 @@
                 font-size: 1.1em;
             }
             .header-buttons button {
-                font-size: 0.8em;
-                padding: 5px 10px;
+                font-size: 0.85em;
+                padding: 6px 12px;
             }
             .main-container {
                 padding: 5px;
@@ -599,14 +665,15 @@
                 max-width: 95%;
             }
             .emoji-button {
-                width: 30px;
-                height: 30px;
-                font-size: 1em;
+                width: 35px;
+                height: 35px;
+                font-size: 1.1em;
             }
             #file-input-button, #mic-button, #send-button {
-                width: 32px;
-                height: 32px;
+                width: 40px;
+                height: 40px;
                 font-size: 1.2em;
+                line-height: 40px;
             }
             .modal-content {
                 width: calc(100% - 10px);
@@ -677,7 +744,7 @@
 <body>
 
 <header>
-    <h1>Ｍｙチャット履歴_携帯版 Ver1.10</h1>
+    <h1>Ｍｙチャット履歴_携帯版 Ver1.20</h1>
     <div class="header-controls">
         <div class="header-buttons">
             <button id="persona-button">各種設定</button>
@@ -743,8 +810,8 @@
         <h2>各種設定</h2>
         <h3 style="margin-top:0;">全チャット履歴のエクスポート/インポート</h3>
         <div class="csv-buttons-container">
-            <button id="export-all-history-button" style="background-color: #4CAF50;">全履歴をJSONで保存</button>
-            <label for="import-all-history-input" style="background-color: #607d8b;">全履歴をJSONから読込</label>
+            <button id="export-all-history-button" style="background-color: #20c997;">全履歴をJSONで保存</button>
+            <label for="import-all-history-input" style="background-color: #6f42c1;">全履歴をJSONから読込</label>
         </div>
         <hr style="margin-top:20px; border-top:1px dashed #eee;">
 
@@ -820,8 +887,8 @@
                 </div>
             </div>
             <div class="csv-buttons-container">
-                <button id="export-csv-button">設定をCSVで保存</button>
-                <label for="import-csv-input" id="import-csv-button">設定をCSVから読込</label>
+                <button id="export-csv-button" style="background-color: #6f42c1;">設定をCSVで保存</button>
+                <label for="import-csv-input" id="import-csv-button" style="background-color: #6f42c1;">設定をCSVから読込</label>
             </div>
         </div>
         <div class="modal-buttons">
@@ -860,7 +927,7 @@
         <h2>メッセージの編集</h2>
         <div class="modal-body">
             <textarea id="edit-message-textarea" style="width: 100%; height: 150px; margin-bottom: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
-            <button id="save-edited-message-button" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">保存</button>
+            <button id="save-edited-message-button" style="background-color: #28a745; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">保存</button>
         </div>
     </div>
 </div>
@@ -876,9 +943,9 @@
         </ul>
         <div class="chat-history-list-footer">
             <div class="left-buttons">
-                <button id="select-all-history-button" style="background-color: #007bff;">全選択</button>
-                <button id="deselect-all-history-button" style="background-color: #6c757d;">全解除</button>
-                <button id="load-selected-history-button" style="background-color: #28a745;">選択を読込</button>
+                <button id="select-all-history-button">全選択</button>
+                <button id="deselect-all-history-button">全解除</button>
+                <button id="load-selected-history-button">選択を読込</button>
             </div>
             <div class="sort-controls">
                 <label for="sort-by-select">並べ替え:</label>
@@ -891,7 +958,7 @@
                 </button>
             </div>
             <div class="right-buttons">
-                <button id="delete-selected-history-button" style="background-color: #dc3545;">選択を削除</button>
+                <button id="delete-selected-history-button">選択を削除</button>
             </div>
         </div>
     </div>
@@ -2413,4 +2480,3 @@
 
 </body>
 </html>
-```
