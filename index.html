@@ -72,7 +72,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Stronger, more modern shadow */
             white-space: nowrap;
             min-width: 100px; /* Give them a minimum width for consistency */
-            display: inline-flex; /* For better centering of text/icons */
+            display: inline-flex; /* For better centering of text/icon if any */
             justify-content: center;
             align-items: center;
             gap: 5px; /* Space between text and icon if any */
@@ -254,7 +254,6 @@
             align-items: center;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* Shadow for lift */
-            padding: 0;
         }
         #file-input-button:hover, #mic-button:hover, #send-button:hover {
             transform: translateY(-2px);
@@ -723,7 +722,7 @@
                 word-wrap: break-word; 
                 page-break-inside: avoid;
             }
-            .user-message { background-color: #e0f0e0; text-align: right; margin-left: auto; border-bottom-right-radius: 5px;}
+            .user-message { background-color: #e0f0e0; text-align: left; margin-left: 0; border-bottom-right-radius: 8px; border-bottom-left-radius: 5px;} /* 修正箇所 */
             .bot-message { background-color: #f0f0f0; text-align: left; border-bottom-left-radius: 5px;}
             .chat-log .speaker { font-weight: bold; margin-bottom: 0px; display: block; }
             .chat-log .timestamp { font-size: 0.75em; color: #666; margin-top: 2px; display: block; text-align: right;}
@@ -1829,8 +1828,8 @@
 
         currentActiveSummaryData.history.forEach(item => {
             const speaker = item.role === 'user' ? userName : aiName;
-            const messageStyle = `margin-bottom: 5px; padding: 8px 12px; border-radius: 8px; max-width: 100%; word-wrap: break-word; page-break-inside: avoid; background-color: ${item.role === 'user' ? '#e0f0e0' : '#f0f0f0'}; ${item.role === 'user' ? 'text-align: right; margin-left: auto;' : 'text-align: left;'};`;
-            const timestampStyle = `font-size: 0.75em; color: #888; margin-top: 2px; display: block; ${item.role === 'user' ? 'text-align: right;' : 'text-align: left;'};`;
+            const messageStyle = `margin-bottom: 5px; padding: 8px 12px; border-radius: 8px; max-width: 100%; word-wrap: break-word; page-break-inside: avoid; background-color: ${item.role === 'user' ? '#e0f0e0' : '#f0f0f0'}; ${item.role === 'user' ? 'text-align: left; margin-left: 0; border-bottom-right-radius: 8px; border-bottom-left-radius: 5px;' : 'text-align: left; border-bottom-left-radius: 5px;'};`; /* 修正適用 */
+            const timestampStyle = `font-size: 0.75em; color: #888; margin-top: 2px; display: block; ${item.role === 'user' ? 'text-align: left;' : 'text-align: left;'};`;
 
             contentForPdf += `<div class="message" style="${messageStyle}">
                                 <span class="speaker" style="font-weight: bold; margin-bottom: 0px; display: block;">${speaker}</span>`;
@@ -2142,51 +2141,6 @@
         reader.readAsText(file[0]);
     }
 
-    // --- ローカルストレージへの保存/読込関数 ---
-    function saveSettingsToLocalStorage() {
-        localStorage.setItem('geminiPersona', personaTextarea.value.trim());
-        localStorage.setItem('summaryPrompt', summaryPromptTextarea.value.trim());
-        localStorage.setItem('userName', userNameInput.value.trim());
-        localStorage.setItem('aiName', aiNameInput.value.trim());
-        localStorage.setItem('soundEnabled', soundOnOff.checked);
-        localStorage.setItem('soundType', soundTypeSelect.value);
-        localStorage.setItem('ttsEnabled', ttsOnOff.checked);
-        localStorage.setItem('ttsVoiceName', ttsVoiceSelect.value);
-        // ↓ここから追加↓
-        localStorage.setItem('ttsRate', ttsRate.toString());
-        localStorage.setItem('ttsPitch', ttsPitch.toString());
-        localStorage.setItem('ttsVolume', ttsVolume.toString());
-        // ↑ここまで追加↑
-    }
-
-    function loadSettingsFromLocalStorage() {
-        personaTextarea.value = localStorage.getItem('geminiPersona') || '';
-        summaryPromptTextarea.value = localStorage.getItem('summaryPrompt') || 
-            `以下の会話履歴を基に、簡潔なタイトル（30文字程度）と、会話の要約を箇条書きにして作成し、JSON形式で出力してください。\n\n出力は以下のJSONフォーマットに従ってください。\n{\n  "title": "ここにタイトルを記述 (15文字程度)",\n  "summary": "ここに会話の要約を記述 (第三者の視点から自然な文章で)"\n}\n\n---\n[会話履歴]\n{CONVERSATION_HISTORY}\n---`;
-        userNameInput.value = localStorage.getItem('userName') || '';
-        aiNameInput.value = localStorage.getItem('aiName') || '';
-        soundOnOff.checked = localStorage.getItem('soundEnabled') !== 'false';
-        soundTypeSelect.value = localStorage.getItem('soundType') || 'sine';
-        ttsOnOff.checked = localStorage.getItem('ttsEnabled') !== 'false';
-        ttsEnabled = ttsOnOff.checked;
-        const savedVoiceName = localStorage.getItem('ttsVoiceName');
-        if (ttsVoiceSelect && savedVoiceName) {
-            ttsVoiceSelect.value = savedVoiceName;
-        }
-        // ↓ここから追加↓
-        ttsRate = parseFloat(localStorage.getItem('ttsRate')) || 1.0;
-        ttsPitch = parseFloat(localStorage.getItem('ttsPitch')) || 1.0;
-        ttsVolume = parseFloat(localStorage.getItem('ttsVolume')) || 1.0;
-
-        ttsRateInput.value = ttsRate;
-        ttsRateValue.textContent = ttsRate.toFixed(1);
-        ttsPitchInput.value = ttsPitch;
-        ttsPitchValue.textContent = ttsPitch.toFixed(1);
-        ttsVolumeInput.value = ttsVolume;
-        ttsVolumeValue.textContent = ttsVolume.toFixed(1);
-        // ↑ここまで追加↑
-    }
-
     // --- ユーティリティ関数 ---
     function playNotificationSound(soundType = 'sine') {
         try {
@@ -2366,25 +2320,26 @@
             return;
         }
 
-        const selectedMessages = document.querySelectorAll('.message.selected');
-        if (selectedMessages.length === 0) {
-            alert('再生するメッセージを選択してください。');
-            return;
-        }
-
         window.speechSynthesis.cancel(); // 新しい再生前に停止
 
         let combinedText = '';
-        selectedMessages.forEach((message, index) => {
+        const selectedMessages = document.querySelectorAll('.message.selected');
+        
+        // 選択されたメッセージをタイムスタンプ順にソート
+        const sortedSelectedMessages = Array.from(selectedMessages).sort((a, b) => {
+            return parseInt(a.dataset.id) - parseInt(b.dataset.id);
+        });
+
+        sortedSelectedMessages.forEach((message, index) => {
             const messageTextElement = message.querySelector('.message-content-text');
             if (messageTextElement && messageTextElement.textContent.trim() !== '') {
                 combinedText += messageTextElement.textContent.trim();
-                if (index < selectedMessages.length - 1) {
+                if (index < sortedSelectedMessages.length - 1) {
                     combinedText += '。';
                 }
             } else if (message.querySelector('.message-image')) {
                 combinedText += '（画像）';
-                if (index < selectedMessages.length - 1) {
+                if (index < sortedSelectedMessages.length - 1) {
                     combinedText += '。';
                 }
             }
@@ -2514,6 +2469,51 @@
         } else {
             stopSpeechButton.style.display = 'none';
         }
+    }
+
+    // --- 設定の保存・読込 ---
+    function saveSettingsToLocalStorage() {
+        localStorage.setItem('geminiPersona', personaTextarea.value.trim());
+        localStorage.setItem('summaryPrompt', summaryPromptTextarea.value.trim());
+        localStorage.setItem('userName', userNameInput.value.trim());
+        localStorage.setItem('aiName', aiNameInput.value.trim());
+        localStorage.setItem('soundEnabled', soundOnOff.checked);
+        localStorage.setItem('soundType', soundTypeSelect.value);
+        localStorage.setItem('ttsEnabled', ttsOnOff.checked);
+        localStorage.setItem('ttsVoiceName', ttsVoiceSelect.value);
+        // ↓ここから追加↓
+        localStorage.setItem('ttsRate', ttsRate.toString());
+        localStorage.setItem('ttsPitch', ttsPitch.toString());
+        localStorage.setItem('ttsVolume', ttsVolume.toString());
+        // ↑ここまで追加↑
+    }
+
+    function loadSettingsFromLocalStorage() {
+        personaTextarea.value = localStorage.getItem('geminiPersona') || '';
+        summaryPromptTextarea.value = localStorage.getItem('summaryPrompt') || 
+            `以下の会話履歴を基に、簡潔なタイトル（30文字程度）と、会話の要約を箇条書きにして作成し、JSON形式で出力してください。\n\n出力は以下のJSONフォーマットに従ってください。\n{\n  "title": "ここにタイトルを記述 (15文字程度)",\n  "summary": "ここに会話の要約を記述 (第三者の視点から自然な文章で)"\n}\n\n---\n[会話履歴]\n{CONVERSATION_HISTORY}\n---`;
+        userNameInput.value = localStorage.getItem('userName') || '';
+        aiNameInput.value = localStorage.getItem('aiName') || '';
+        soundOnOff.checked = localStorage.getItem('soundEnabled') !== 'false';
+        soundTypeSelect.value = localStorage.getItem('soundType') || 'sine';
+        ttsOnOff.checked = localStorage.getItem('ttsEnabled') !== 'false';
+        ttsEnabled = ttsOnOff.checked;
+        const savedVoiceName = localStorage.getItem('ttsVoiceName');
+        if (ttsVoiceSelect && savedVoiceName) {
+            ttsVoiceSelect.value = savedVoiceName;
+        }
+        // ↓ここから追加↓
+        ttsRate = parseFloat(localStorage.getItem('ttsRate')) || 1.0;
+        ttsPitch = parseFloat(localStorage.getItem('ttsPitch')) || 1.0;
+        ttsVolume = parseFloat(localStorage.getItem('ttsVolume')) || 1.0;
+
+        ttsRateInput.value = ttsRate;
+        ttsRateValue.textContent = ttsRate.toFixed(1);
+        ttsPitchInput.value = ttsPitch;
+        ttsPitchValue.textContent = ttsPitch.toFixed(1);
+        ttsVolumeInput.value = ttsVolume;
+        ttsVolumeValue.textContent = ttsVolume.toFixed(1);
+        // ↑ここまで追加↑
     }
 </script>
 
