@@ -588,7 +588,7 @@
                 align-items: flex-start;
             }
             .name-setting-container label {
-                flex-basis: auto;
+                flex-basis: 100%;
                 width: 100%;
                 margin-bottom: 5px;
             }
@@ -744,7 +744,7 @@
 <body>
 
 <header>
-    <h1>Ｍｙチャット履歴_携帯版 Ver1.20</h1>
+    <h1>Ｍｙチャット履歴_携帯版 Ver1.10</h1>
     <div class="header-controls">
         <div class="header-buttons">
             <button id="persona-button">各種設定</button>
@@ -2236,7 +2236,46 @@
     function formatTimestamp(date) { return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`; }
 
     function showHelp() {
-        const helpContent = `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>Ｍｙチャット履歴 - 取扱説明書</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.7;margin:0;padding:25px;color:#333;background-color:#f9f9f9}.container{max-width:800px;margin:0 auto;background-color:#fff;padding:20px 30px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08)}h1{color:#2e8b57;border-bottom:3px solid #66cdaa;padding-bottom:10px;font-size:1.8em}h2{color:#3cb371;border-bottom:2px solid #e0f2f1;padding-bottom:8px;margin-top:30px;font-size:1.5em}h3{color:#2e8b57;border-left:5px solid #66cdaa;padding-left:10px;font-size:1.2em}ul{list-style-type:none;padding-left:0}li{margin-bottom:15px;padding-left:20px;position:relative}li::before{content:'✓';color:#3cb371;position:absolute;left:0;font-weight:bold}p{text-align:justify}code{background-color:#eef;color:#d63384;padding:2px 6px;border-radius:4px;font-family:'Courier New',Courier,monospace}.icon{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;color:#fff;font-size:1.1em;vertical-align:middle;margin-right:5px}.save-icon{background-color:#3cb371}.important{background-color:#fffbe6;border:1px solid #ffeeba;border-left:5px solid #ffc107;padding:15px 20px;margin:20px 0;border-radius:5px}.important strong{color:#856404}.button-desc{font-weight:bold}</style></head><body><div class="container"><h1>Ｍｙチャット履歴 - 取扱説明書</h1><p>このアプリケーションは、AIとの自由な対話を記録し、要約を生成して履歴として保存・管理できるツールです。</p><div class="important"><p><strong>【重要】</strong> 初めてご利用になる際は、必ず右上の「<b>API設定</b>」ボタンからご自身のGemini APIキーを設定してください。</p></div><h2>主な機能</h2><h3>1. AIとのチャット</h3><ul><li><span class="button-desc">メッセージの送信:</span> <code>Enter</code>キーで送信、<code>Shift + Enter</code>で改行できます。</li><li><span class="button-desc">画像の添付:</span> クリップボタン<code>📎</code>か、入力欄へのペーストで画像を添付できます。</li><li><span class="button-desc">音声入力:</span> マイクボタン<code>🎤</code>でチャット内容の音声入力が可能です。</li><li><span class="button-desc">絵文字入力:</span> 入力欄上部の絵文字ボタンで、感情表現の絵文字を簡単に入力できます。</li><li><span class="button-desc">メッセージの削除:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を削除</b>」で削除できます。</li><li><span class="button-desc">メッセージの編集:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を編集</b>」で編集できます。</li><li><span class="button-desc">メッセージの再生:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を再生</b>」で音声読み上げできます。</li><li><span class="button-desc">音声停止:</span> 音声が再生中の場合、ヘッダーの「<b>音声停止</b>」ボタンで再生を停止できます。</li></ul><h3>2. チャットの保存と履歴管理</h3><ul><li><span class="icon save-icon">✈️</span> <span class="button-desc">チャット保存:</span> 現在の会話内容をAIが分析し、タイトルと概要を生成してマークダウン形式で保存します。同時にダウンロードも行われます。</li><li><span class="button-desc">履歴一覧:</span> ヘッダーの「<b>履歴一覧</b>」ボタンで、保存されたチャット履歴のリストを表示し、過去のチャットを呼び出すことができます。</li><li><span class="button-desc">新しいチャット:</span> 現在の会話を破棄して、新しいチャットを開始します。</li></ul><h3>3. ヘッダーの各種ボタン</h3><ul><li><span class="button-desc">各種設定:</span> AIの性格、チャット概要生成プロンプト、あなたとAIの名前などを設定できます。<b>「設定をCSVで保存」/「設定をCSVから読込」で設定のバックアップ・復元も可能です。</b></li><li><span class="button-desc">API設定:</b> Gemini APIキーを設定・テスト・削除できます。</li><li><span class="button-desc">PDFプレビュー:</b> 現在のチャット内容をPDF形式でプレビュー表示・ダウンロードできます。</li></ul><h2>注意事項</h2><ul><li>APIキー、会話履歴、チャット履歴、各種設定は、すべてお使いのブラウザのローカルストレージに保存されます。<b>サーバーには一切データは送信・保存されません。</b></li><li>ブラウザのキャッシュや履歴を消去すると、保存したデータがすべて失われる可能性がありますのでご注意ください。</li><li>Gemini APIの利用料金は、APIキーを発行したご自身のGoogleアカウントに準じます。利用量にご注意ください。</li></ul></div></body></html>`;
+        const helpContent = `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>Ｍｙチャット履歴 - 取扱説明書</title><style>
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.7;margin:0;padding:25px;color:#333;background-color:#f9f9f9}
+        .container{max-width:800px;margin:0 auto;background-color:#fff;padding:20px 30px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);position:relative;}
+        h1{color:#2e8b57;border-bottom:3px solid #66cdaa;padding-bottom:10px;font-size:1.8em}
+        h2{color:#3cb371;border-bottom:2px solid #e0f2f1;padding-bottom:8px;margin-top:30px;font-size:1.5em}
+        h3{color:#2e8b57;border-left:5px solid #66cdaa;padding-left:10px;font-size:1.2em}
+        ul{list-style-type:none;padding-left:0}
+        li{margin-bottom:15px;padding-left:20px;position:relative}
+        li::before{content:'✓';color:#3cb371;position:absolute;left:0;font-weight:bold}
+        p{text-align:justify}
+        code{background-color:#eef;color:#d63384;padding:2px 6px;border-radius:4px;font-family:'Courier New',Courier,monospace}
+        .icon{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;color:#fff;font-size:1.1em;vertical-align:middle;margin-right:5px}
+        .save-icon{background-color:#3cb371}
+        .important{background-color:#fffbe6;border:1px solid #ffeeba;border-left:5px solid #ffc107;padding:15px 20px;margin:20px 0;border-radius:5px}
+        .important strong{color:#856404}
+        .button-desc{font-weight:bold}
+        .close-help-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+        .close-help-button:hover {
+            background-color: #d32f2f;
+        }
+        </style></head><body><div class="container">
+        <button class="close-help-button" onclick="window.close()">&times;</button>
+        <h1>Ｍｙチャット履歴 - 取扱説明書</h1><p>このアプリケーションは、AIとの自由な対話を記録し、要約を生成して履歴として保存・管理できるツールです。</p><div class="important"><p><strong>【重要】</strong> 初めてご利用になる際は、必ず右上の「<b>API設定</b>」ボタンからご自身のGemini APIキーを設定してください。</p></div><h2>主な機能</h2><h3>1. AIとのチャット</h3><ul><li><span class="button-desc">メッセージの送信:</span> <code>Enter</code>キーで送信、<code>Shift + Enter</code>で改行できます。</li><li><span class="button-desc">画像の添付:</span> クリップボタン<code>📎</code>か、入力欄へのペーストで画像を添付できます。</li><li><span class="button-desc">音声入力:</span> マイクボタン<code>🎤</code>でチャット内容の音声入力が可能です。</li><li><span class="button-desc">絵文字入力:</span> 入力欄上部の絵文字ボタンで、感情表現の絵文字を簡単に入力できます。</li><li><span class="button-desc">メッセージの削除:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を削除</b>」で削除できます。</li><li><span class="button-desc">メッセージの編集:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を編集</b>」で編集できます。</li><li><span class="button-desc">メッセージの再生:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を再生</b>」で音声読み上げできます。</li><li><span class="button-desc">音声停止:</span> 音声が再生中の場合、ヘッダーの「<b>音声停止</b>」ボタンで再生を停止できます。</li></ul><h3>2. チャットの保存と履歴管理</h3><ul><li><span class="icon save-icon">✈️</span> <span class="button-desc">チャット保存:</span> 現在の会話内容をAIが分析し、タイトルと概要を生成してマークダウン形式で保存します。同時にダウンロードも行われます。</li><li><span class="button-desc">履歴一覧:</span> ヘッダーの「<b>履歴一覧</b>」ボタンで、保存されたチャット履歴のリストを表示し、過去のチャットを呼び出すことができます。</li><li><span class="button-desc">新しいチャット:</span> 現在の会話を破棄して、新しいチャットを開始します。</li></ul><h3>3. ヘッダーの各種ボタン</h3><ul><li><span class="button-desc">各種設定:</span> AIの性格、チャット概要生成プロンプト、あなたとAIの名前などを設定できます。<b>「設定をCSVで保存」/「設定をCSVから読込」で設定のバックアップ・復元も可能です。</b></li><li><span class="button-desc">API設定:</b> Gemini APIキーを設定・テスト・削除できます。</li><li><span class="button-desc">PDFプレビュー:</b> 現在のチャット内容をPDF形式でプレビュー表示・ダウンロードできます。</li></ul><h2>注意事項</h2><ul><li>APIキー、会話履歴、チャット履歴、各種設定は、すべてお使いのブラウザのローカルストレージに保存されます。<b>サーバーには一切データは送信・保存されません。</b></li><li>ブラウザのキャッシュや履歴を消去すると、保存したデータがすべて失われる可能性がありますのでご注意ください。</li><li>Gemini APIの利用料金は、APIキーを発行したご自身のGoogleアカウントに準じます。利用量にご注意ください。</li></ul></div></body></html>`;
         const helpWindow = window.open('', '_blank');
         helpWindow.document.write(helpContent);
         helpWindow.document.close();
