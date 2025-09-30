@@ -226,11 +226,28 @@
         }
         
         .input-controls { display: flex; flex-direction: column; flex-grow: 1; min-height: 0; }
-        .input-buttons-container { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;}
+        .input-buttons-container { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 8px; 
+            flex-wrap: wrap;
+            /* ★ここから変更★ */
+            align-items: flex-end; /* ボタンを下揃えに */
+            /* ★ここまで変更★ */
+        }
         #text-input {
-            flex-grow: 1; width: 100%; box-sizing: border-box; border: 1px solid #ddd;
-            border-radius: 12px; padding: 10px 15px; resize: vertical;
-            font-family: inherit; font-size: 1em;
+            flex-grow: 1; 
+            width: 100%; 
+            box-sizing: border-box; 
+            border: 1px solid #ddd;
+            border-radius: 12px; 
+            padding: 10px 15px; 
+            resize: vertical;
+            font-family: inherit; 
+            font-size: 1em;
+            /* ★ここから変更★ */
+            min-height: 120px; /* デフォルトで大きくする */
+            /* ★ここまで変更★ */
         }
         #text-input:focus {
             outline: none; border-color: #4CAF50;
@@ -264,7 +281,8 @@
         #mic-button.recording { background-color: #dc3545; } /* Danger red when recording */
         #send-button { background-color: #6f42c1; } /* Purple for send */
 
-        /* 絵文字ボタンコンテナ */
+        /* 絵文字ボタンコンテナ (削除したのでコメントアウトまたは削除) */
+        /*
         .emoji-buttons-container {
             display: flex;
             flex-wrap: wrap;
@@ -272,25 +290,26 @@
             margin-bottom: 8px;
         }
         .emoji-button {
-            width: 42px; /* Slightly larger */
+            width: 42px;
             height: 42px;
             border-radius: 50%;
             border: 1px solid #ccc;
             background-color: #f8f8f8;
             color: #333;
             cursor: pointer;
-            font-size: 1.4em; /* Larger emoji */
+            font-size: 1.4em;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Softer shadow */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .emoji-button:hover {
             background-color: #e8e8e8;
             transform: translateY(-2px);
             box-shadow: 0 2px 6px rgba(0,0,0,0.12);
         }
+        */
 
 
         /* モーダル共通スタイル */
@@ -443,8 +462,13 @@
         }
 
         /* Chat history list footer buttons */
-        .chat-history-list-footer .left-buttons button,
-        .chat-history-list-footer .right-buttons button {
+        .chat-history-list-footer .left-buttons,
+        .chat-history-list-footer .right-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+        .chat-history-list-footer button {
             min-width: 120px; /* Slightly larger min-width */
         }
         #select-all-history-button { background-color: #007bff; }
@@ -471,6 +495,26 @@
             font-size: 1.1em;
             vertical-align: middle;
         }
+
+        #side-panel #storage-info-panel {
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08); /* Separator line */
+            margin-top: auto; /* Pushes it to the bottom of the flex container */
+            background-color: rgba(255, 255, 255, 0.5); /* Slightly different background */
+            border-radius: 8px; /* Consistent rounding */
+            padding: 15px; /* Adjust padding */
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+            text-align: left; /* Align text within the panel */
+        }
+        #side-panel #storage-info-panel h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            text-align: left; /* Align with other content */
+            color: #2e8b57;
+            border-bottom: none; /* Remove border from h3 in this context */
+            padding-bottom: 0;
+        }
+
 
         /* 既存のブレークポイントは維持しつつ、モバイル向けに強化 */
         @media (max-width: 1250px) {
@@ -547,20 +591,25 @@
             }
 
             /* 入力エリアの調整 */
+            /* 絵文字ボタン削除に伴い、ここは不要 */
+            /*
             .emoji-button {
                 width: 38px;
                 height: 38px;
                 font-size: 1.2em;
             }
+            */
             #file-input-button, #mic-button, #send-button {
                 width: 44px; /* Slightly smaller for mobile */
                 height: 44px;
                 font-size: 1.4em;
                 line-height: 44px;
             }
+            /* ★ここから変更★ */
             #text-input {
-                min-height: 80px;
+                min-height: 100px; /* モバイルで入力欄を大きく */
             }
+            /* ★ここまで変更★ */
 
             /* モーダルの調整 */
             .modal-content {
@@ -663,11 +712,14 @@
             .message {
                 max-width: 95%;
             }
+            /* 絵文字ボタン削除に伴い、ここは不要 */
+            /*
             .emoji-button {
                 width: 35px;
                 height: 35px;
                 font-size: 1.1em;
             }
+            */
             #file-input-button, #mic-button, #send-button {
                 width: 40px;
                 height: 40px;
@@ -743,7 +795,7 @@
 <body>
 
 <header>
-    <h1>MyAI Chat History Ver1.22</h1>
+    <h1>MyAI Chat History Ver1.23</h1>
     <div class="header-controls">
         <div class="header-buttons">
             <button id="persona-button">各種設定</button>
@@ -779,25 +831,19 @@
                 <button id="remove-image-button">&times;</button>
             </div>
             <div class="input-controls">
-                <div class="emoji-buttons-container" id="emoji-buttons-container">
-                    <button type="button" class="emoji-button" data-emoji="😊"></button>
-                    <button type="button" class="emoji-button" data-emoji="😂"></button>
-                    <button type="button" class="emoji-button" data-emoji="💖"></button>
-                    <button type="button" class="emoji-button" data-emoji="✨"></button>
-                    <button type="button" class="emoji-button" data-emoji="👍"></button>
-                    <button type="button" class="emoji-button" data-emoji="🤔"></button>
-                    <button type="button" class="emoji-button" data-emoji="🎉"></button>
-                    <button type="button" class="emoji-button" data-emoji="🙏"></button>
-                    <button type="button" class="emoji-button" data-emoji="🌟"></button>
-                    <button type="button" class="emoji-button" data-emoji="💡"></button>
-                </div>
+                <!-- 絵文字ボタンコンテナを削除 -->
                 <div class="input-buttons-container">
                     <button id="file-input-button" title="画像を選択">📎</button>
                     <button id="mic-button" title="音声入力">🎤</button>
-                    <button id="send-button" title="メッセージを送信">✈️</button>
+                    <button id="send-button" title="メッセージを送信"✈️</button>
                 </div>
                 <textarea id="text-input" placeholder="メッセージを入力または画像をペースト... (Shift+Enterで改行)"></textarea>
             </div>
+        </div>
+        <div id="storage-info-panel">
+            <h3 style="margin-top: 0; margin-bottom: 5px;">ストレージ情報</h3>
+            <p id="local-storage-usage-display">ローカルストレージ使用量: 計算中...</p>
+            <p style="font-size: 0.8em; color: #777; margin-top: 5px;">※ ブラウザのローカルストレージは約5MBが一般的です。</p>
         </div>
     </div>
 </div>
@@ -865,7 +911,6 @@
                             <label for="tts-voice-select">音声の種類:</label>
                             <select id="tts-voice-select"></select>
                         </div>
-                        <!-- ここから追加 -->
                         <div>
                             <label for="tts-rate-input">速度:</label>
                             <input type="range" id="tts-rate-input" min="0.1" max="2" step="0.1" value="1">
@@ -881,7 +926,6 @@
                             <input type="range" id="tts-volume-input" min="0" max="1" step="0.1" value="1">
                             <span id="tts-volume-value">1.0</span>
                         </div>
-                        <!-- ここまで追加 -->
                     </div>
                 </div>
             </div>
@@ -976,7 +1020,7 @@
             <iframe id="pdf-frame" style="width: 100%; height: 100%; border: none;"></iframe>
         </div>
         <div class="modal-buttons">
-            <button id="download-pdf-button" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">PDFをダウンロード</button>
+            <button id="download-pdf-button" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 44px; cursor: pointer; font-weight: bold;">PDFをダウンロード</button>
         </div>
     </div>
 </div>
@@ -1061,20 +1105,21 @@
     const pdfFrame = document.getElementById('pdf-frame');
     const downloadPdfButton = document.getElementById('download-pdf-button');
 
-    // 絵文字ボタン関連
-    const emojiButtons = document.querySelectorAll('.emoji-button');
+    // 絵文字ボタン関連 (削除)
+    // const emojiButtons = document.querySelectorAll('.emoji-button');
 
     // TTS関連のDOM要素
     const ttsOnOff = document.getElementById('tts-on-off');
     const ttsVoiceSelect = document.getElementById('tts-voice-select');
-    // ↓ここから追加↓
     const ttsRateInput = document.getElementById('tts-rate-input');
     const ttsRateValue = document.getElementById('tts-rate-value');
     const ttsPitchInput = document.getElementById('tts-pitch-input');
     const ttsPitchValue = document.getElementById('tts-pitch-value');
     const ttsVolumeInput = document.getElementById('tts-volume-input');
     const ttsVolumeValue = document.getElementById('tts-volume-value');
-    // ↑ここまで追加↑
+
+    const localStorageUsageDisplay = document.getElementById('local-storage-usage-display');
+    const MAX_LOCAL_STORAGE_BYTES = 5 * 1024 * 1024; // ローカルストレージの一般的な上限5MBをバイトで定義
 
 
     // グローバル変数
@@ -1088,11 +1133,9 @@
     let ttsEnabled = true;
     let selectedTtsVoice = null;
     let availableVoices = [];
-    // ↓ここから追加↓
     let ttsRate = 1.0;
     let ttsPitch = 1.0;
     let ttsVolume = 1.0;
-    // ↑ここまで追加↑
 
 
     // --- 初期化処理 ---
@@ -1119,12 +1162,16 @@
         sortBySelect.value = currentSortBy;
         sortOrderIcon.textContent = (currentSortOrder === 'asc' ? '↑' : '↓');
 
-        const defaultEmojis = ['😊', '😂', '💖', '✨', '👍', '🤔', '🎉', '🙏', '🌟', '💡'];
-        emojiButtons.forEach((button, index) => {
-            if (defaultEmojis[index]) {
-                button.textContent = defaultEmojis[index];
-            }
-        });
+        // 絵文字ボタン初期化を削除
+        // const defaultEmojis = ['😊', '😂', '💖', '✨', '👍', '🤔', '🎉', '🙏', '🌟', '💡'];
+        // emojiButtons.forEach((button, index) => {
+        //     if (defaultEmojis[index]) {
+        //         button.textContent = defaultEmojis[index];
+        //     }
+        // });
+
+        // ページ読み込み時に使用量を表示
+        updateLocalStorageUsageDisplay(); 
     });
 
     // --- イベントリスナー設定 ---
@@ -1180,17 +1227,27 @@
             localStorage.setItem('geminiApiKey', newKey);
             settingsModal.style.display = 'none';
             alert('APIキーを保存しました。');
+            updateLocalStorageUsageDisplay(); // APIキー保存後に使用量を更新
         } else {
             alert('APIキーを入力してください。');
         }
     });
     testKeyButton.addEventListener('click', testApiKey);
-    deleteKeyButton.addEventListener('click', deleteApiKey);
+    deleteKeyButton.addEventListener('click', () => {
+        if (confirm('保存されているAPIキーを削除しますか？')) {
+            apiKey = ''; apiKeyInput.value = ''; localStorage.removeItem('geminiApiKey');
+            alert('APIキーを削除しました。');
+            testKeyResult.textContent = ''; testKeyResult.className = '';
+            updateLocalStorageUsageDisplay(); // APIキー削除後に使用量を更新
+        }
+    });
 
     personaButton.addEventListener('click', () => {
         loadSettingsFromLocalStorage();
         personaModal.style.display = 'block';
         loadVoices();
+        // personaモーダル表示時に使用量を更新 (ここでは表示しないので不要)
+        // updateLocalStorageUsageUsageDisplay(); 
     });
 
     closePersonaModal.addEventListener('click', () => { personaModal.style.display = 'none'; });
@@ -1198,6 +1255,7 @@
         saveSettingsToLocalStorage();
         personaModal.style.display = 'none';
         alert('設定を保存しました。');
+        updateLocalStorageUsageDisplay(); // 設定保存後に使用量を更新
     });
     personaExampleBtns.forEach(btn => {
         btn.addEventListener('click', () => { personaTextarea.value = btn.dataset.persona; });
@@ -1277,6 +1335,7 @@
             localStorage.setItem('chatSummaries', JSON.stringify(allSummaries));
             displayChatHistoryList(chatHistorySearchInput.value, currentSortBy, currentSortOrder);
             alert(`${checkedCheckboxes.length}件の履歴を削除しました。`);
+            updateLocalStorageUsageDisplay(); // 履歴削除後に使用量を更新
         }
     });
     loadSelectedHistoryButton.addEventListener('click', () => {
@@ -1301,6 +1360,7 @@
             loadChatFromSummary(selectedSummaries[0]);
             chatHistoryListModal.style.display = 'none';
             alert(`「${selectedSummaries[0].title}」を読み込みました。`);
+            updateLocalStorageUsageDisplay(); // 履歴読み込み後に使用量を更新 (historyがlocalStorageに保存されるため)
         } else {
             alert('有効な履歴が選択されていません。');
         }
@@ -1311,14 +1371,15 @@
         pdfFrame.src = '';
     });
 
-    emojiButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            const emoji = button.dataset.emoji;
-            textInput.value += emoji;
-            textInput.focus();
-        });
-    });
+    // 絵文字ボタンのイベントリスナーを削除
+    // emojiButtons.forEach(button => {
+    //     button.addEventListener('click', (event) => {
+    //         event.preventDefault();
+    //         const emoji = button.dataset.emoji;
+    //         textInput.value += emoji;
+    //         textInput.focus();
+    //     });
+    // });
 
     ttsOnOff.addEventListener('change', () => {
         ttsEnabled = ttsOnOff.checked;
@@ -1335,7 +1396,6 @@
         localStorage.setItem('ttsVoiceName', selectedName);
     });
 
-    // ↓ここから追加↓
     ttsRateInput.addEventListener('input', () => {
         ttsRate = parseFloat(ttsRateInput.value);
         ttsRateValue.textContent = ttsRate.toFixed(1);
@@ -1348,7 +1408,6 @@
         ttsVolume = parseFloat(ttsVolumeInput.value);
         ttsVolumeValue.textContent = ttsVolume.toFixed(1);
     });
-    // ↑ここまで追加↑
 
 
     // --- チャット関連の関数 ---
@@ -1388,6 +1447,7 @@
         }
         textInput.focus();
         updateDeleteButtonVisibility();
+        updateLocalStorageUsageDisplay(); // 新しいチャット開始後に使用量を更新
     }
 
     function loadChatHistory() {
@@ -1411,11 +1471,13 @@
             startNewChat(true);
         }
         updateDeleteButtonVisibility();
+        updateLocalStorageUsageDisplay(); // 履歴読み込み後に使用量を更新 (念のため)
     }
 
     function saveChatHistory() {
         try {
             localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+            updateLocalStorageUsageDisplay(); // 会話履歴保存後に使用量を更新
         } catch (error) {
             if (error.name === 'QuotaExceededError') {
                 console.error("会話履歴の自動保存に失敗: ブラウザの保存容量の上限を超えました。");
@@ -1551,14 +1613,6 @@
         }
     }
 
-    function deleteApiKey() {
-        if (confirm('保存されているAPIキーを削除しますか？')) {
-            apiKey = ''; apiKeyInput.value = ''; localStorage.removeItem('geminiApiKey');
-            alert('APIキーを削除しました。');
-            testKeyResult.textContent = ''; testKeyResult.className = '';
-        }
-    }
-
     // --- チャット保存・履歴表示関連の関数 ---
     async function createChatSummary() {
         if (conversationHistory.length === 0) { alert('保存するチャットがありません。'); return; }
@@ -1637,6 +1691,7 @@
                 displayChatSummaryInChatBox(chatSummaryData);
                 currentActiveSummaryData = chatSummaryData;
                 printPdfButton.style.display = 'inline-flex';
+                updateLocalStorageUsageDisplay(); // チャット概要保存後に使用量を更新
             } catch (error) {
                 if (error.name === 'QuotaExceededError') {
                     throw new Error("ブラウザの保存容量の上限を超えました。ファイルはダウンロードされましたが、履歴リストには保存できませんでした。");
@@ -1660,6 +1715,7 @@
             summaries.push(chatSummaryData);
         }
         localStorage.setItem('chatSummaries', JSON.stringify(summaries));
+        updateLocalStorageUsageDisplay(); // チャット履歴リストの更新後に使用量を更新
     }
 
     function displayChatSummaryInChatBox(summaryData) {
@@ -1686,6 +1742,7 @@
         updateDeleteButtonVisibility();
         currentActiveSummaryData = summaryData;
         printPdfButton.style.display = 'inline-flex';
+        updateLocalStorageUsageDisplay(); // チャット概要表示後に使用量を更新
     }
 
 
@@ -1755,6 +1812,7 @@
         summaries = summaries.filter(summary => summary.filename !== filenameToDelete);
         localStorage.setItem('chatSummaries', JSON.stringify(summaries));
         displayChatHistoryList(chatHistorySearchInput.value, currentSortBy, currentSortOrder);
+        updateLocalStorageUsageDisplay(); // 履歴リストからの削除後に使用量を更新
     }
 
     function loadChatFromSummary(summaryData) {
@@ -1775,6 +1833,7 @@
 
         currentActiveSummaryData = summaryData;
         printPdfButton.style.display = 'inline-flex';
+        updateLocalStorageUsageDisplay(); // チャット概要表示後に使用量を更新 (historyがlocalStorageに保存されるため)
     }
 
     function downloadChatSummaryMarkdown(summaryData, filename) {
@@ -1975,11 +2034,9 @@
             soundType: soundTypeSelect.value,
             ttsEnabled: ttsOnOff.checked,
             ttsVoiceName: ttsVoiceSelect.value,
-            // ↓ここから追加↓
             ttsRate: ttsRate,
             ttsPitch: ttsPitch,
             ttsVolume: ttsVolume,
-            // ↑ここまで追加↑
         };
 
         const csvRows = ['"Key","Value"'];
@@ -2044,7 +2101,6 @@
                 if (ttsVoiceSelect) {
                     ttsVoiceSelect.value = settings.ttsVoiceName || '';
                 }
-                // ↓ここから追加↓
                 ttsRate = parseFloat(settings.ttsRate) || 1.0;
                 ttsPitch = parseFloat(settings.ttsPitch) || 1.0;
                 ttsVolume = parseFloat(settings.ttsVolume) || 1.0;
@@ -2054,13 +2110,13 @@
                 ttsPitchValue.textContent = ttsPitch.toFixed(1);
                 ttsVolumeInput.value = ttsVolume;
                 ttsVolumeValue.textContent = ttsVolume.toFixed(1);
-                // ↑ここまで追加↑
 
                 saveSettingsToLocalStorage();
                 loadVoices();
 
                 alert('設定をCSVファイルから読み込みました。');
                 event.target.value = '';
+                updateLocalStorageUsageDisplay(); // 設定CSVインポート後に使用量を更新
 
             } catch (error) {
                 console.error('CSVインポートエラー:', error);
@@ -2126,6 +2182,7 @@
                 
                 startNewChat(true); 
                 displayChatHistoryList(chatHistorySearchInput.value, currentSortBy, currentSortOrder);
+                updateLocalStorageUsageDisplay(); // 全履歴インポート後に使用量を更新
 
             } catch (error) {
                 console.error('全チャット履歴のインポートエラー:', error);
@@ -2229,7 +2286,7 @@
         }
         </style></head><body><div class="container">
         <button class="close-help-button" onclick="window.close()">&times;</button>
-        <h1>Ｍｙチャット履歴 - 取扱説明書</h1><p>このアプリケーションは、AIとの自由な対話を記録し、要約を生成して履歴として保存・管理できるツールです。</p><div class="important"><p><strong>【重要】</strong> 初めてご利用になる際は、必ず右上の「<b>API設定</b>」ボタンからご自身のGemini APIキーを設定してください。</p></div><h2>主な機能</h2><h3>1. AIとのチャット</h3><ul><li><span class="button-desc">メッセージの送信:</span> <code>Enter</code>キーで送信、<code>Shift + Enter</code>で改行できます。</li><li><span class="button-desc">画像の添付:</span> クリップボタン<code>📎</code>か、入力欄へのペーストで画像を添付できます。</li><li><span class="button-desc">音声入力:</span> マイクボタン<code>🎤</code>でチャット内容の音声入力が可能です。</li><li><span class="button-desc">絵文字入力:</span> 入力欄上部の絵文字ボタンで、感情表現の絵文字を簡単に入力できます。</li><li><span class="button-desc">メッセージの削除:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を削除</b>」で削除できます。</li><li><span class="button-desc">メッセージの編集:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を編集</b>」で編集できます。</li><li><span class="button-desc">メッセージの再生:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を再生</b>」で音声読み上げできます。</li><li><span class="button-desc">音声停止:</span> 音声が再生中の場合、ヘッダーの「<b>音声停止</b>」ボタンで再生を停止できます。</li></ul><h3>2. チャットの保存と履歴管理</h3><ul><li><span class="icon save-icon">✈️</span> <span class="button-desc">チャット保存:</span> 現在の会話内容をAIが分析し、タイトルと概要を生成してマークダウン形式で保存します。同時にダウンロードも行われます。</li><li><span class="button-desc">履歴一覧:</span> ヘッダーの「<b>履歴一覧</b>」ボタンで、保存されたチャット履歴のリストを表示し、過去のチャットを呼び出すことができます。</li><li><span class="button-desc">新しいチャット:</span> 現在の会話を破棄して、新しいチャットを開始します。</li></ul><h3>3. ヘッダーの各種ボタン</h3><ul><li><span class="button-desc">各種設定:</span> AIの性格、チャット概要生成プロンプト、あなたとAIの名前などを設定できます。<b>「設定をCSVで保存」/「設定をCSVから読込」で設定のバックアップ・復元も可能です。</b></li><li><span class="button-desc">API設定:</b> Gemini APIキーを設定・テスト・削除できます。</li><li><span class="button-desc">PDFプレビュー:</b> 現在のチャット内容をPDF形式でプレビュー表示・ダウンロードできます。</li></ul><h2>注意事項</h2><ul><li>APIキー、会話履歴、チャット履歴、各種設定は、すべてお使いのブラウザのローカルストレージに保存されます。<b>サーバーには一切データは送信・保存されません。</b></li><li>ブラウザのキャッシュや履歴を消去すると、保存したデータがすべて失われる可能性がありますのでご注意ください。</li><li>Gemini APIの利用料金は、APIキーを発行したご自身のGoogleアカウントに準じます。利用量にご注意ください。</li></ul></div></body></html>`;
+        <h1>Ｍｙチャット履歴 - 取扱説明書</h1><p>このアプリケーションは、AIとの自由な対話を記録し、要約を生成して履歴として保存・管理できるツールです。</p><div class="important"><p><strong>【重要】</strong> 初めてご利用になる際は、必ず右上の「<b>API設定</b>」ボタンからご自身のGemini APIキーを設定してください。</p></div><h2>主な機能</h2><h3>1. AIとのチャット</h3><ul><li><span class="button-desc">メッセージの送信:</span> <code>Enter</code>キーで送信、<code>Shift + Enter</code>で改行できます。</li><li><span class="button-desc">画像の添付:</span> クリップボタン<code>📎</code>か、入力欄へのペーストで画像を添付できます。</li><li><span class="button-desc">音声入力:</span> マイクボタン<code>🎤</code>でチャット内容の音声入力が可能です。</li><li><span class="button-desc">メッセージの削除:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を削除</b>」で削除できます。</li><li><span class="button-desc">メッセージの編集:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を編集</b>」で編集できます。</li><li><span class="button-desc">メッセージの再生:</span> 各メッセージをクリックで選択し、ヘッダーの「<b>選択を再生</b>」で音声読み上げできます。</li><li><span class="button-desc">音声停止:</span> 音声が再生中の場合、ヘッダーの「<b>音声停止</b>」ボタンで再生を停止できます。</li></ul><h3>2. チャットの保存と履歴管理</h3><ul><li><span class="icon save-icon">✈️</span> <span class="button-desc">チャット保存:</span> 現在の会話内容をAIが分析し、タイトルと概要を生成してマークダウン形式で保存します。同時にダウンロードも行われます。</li><li><span class="button-desc">履歴一覧:</span> ヘッダーの「<b>履歴一覧</b>」ボタンで、保存されたチャット履歴のリストを表示し、過去のチャットを呼び出すことができます。</li><li><span class="button-desc">新しいチャット:</span> 現在の会話を破棄して、新しいチャットを開始します。</li></ul><h3>3. ヘッダーの各種ボタン</h3><ul><li><span class="button-desc">各種設定:</span> AIの性格、チャット概要生成プロンプト、あなたとAIの名前などを設定できます。<b>「設定をCSVで保存」/「設定をCSVから読込」で設定のバックアップ・復元も可能です。</b></li><li><span class="button-desc">API設定:</b> Gemini APIキーを設定・テスト・削除できます。</li><li><span class="button-desc">PDFプレビュー:</b> 現在のチャット内容をPDF形式でプレビュー表示・ダウンロードできます。</li></ul><h2>注意事項</h2><ul><li>APIキー、会話履歴、チャット履歴、各種設定は、すべてお使いのブラウザのローカルストレージに保存されます。<b>サーバーには一切データは送信・保存されません。</b></li><li>ブラウザのキャッシュや履歴を消去すると、保存したデータがすべて失われる可能性がありますのでご注意ください。</li><li>Gemini APIの利用料金は、APIキーを発行したご自身のGoogleアカウントに準じます。利用量にご注意ください。</li></ul></div></body></html>`;
         const helpWindow = window.open('', '_blank');
         helpWindow.document.write(helpContent);
         helpWindow.document.close();
@@ -2253,7 +2310,7 @@
                 msg.remove();
             });
             conversationHistory = conversationHistory.filter(item => !idsToDelete.has(String(new Date(item.timestamp).getTime())));
-            saveChatHistory();
+            saveChatHistory(); // This will call updateLocalStorageUsageDisplay()
             updateDeleteButtonVisibility();
         }
     }
@@ -2300,7 +2357,7 @@
         const messageIndex = conversationHistory.findIndex(item => String(new Date(item.timestamp).getTime()) === messageId);
         if (messageIndex !== -1) {
             conversationHistory[messageIndex].content = newText;
-            saveChatHistory();
+            saveChatHistory(); // This will call updateLocalStorageUsageDisplay()
         }
 
         editingMessageElement.classList.remove('selected');
@@ -2362,11 +2419,9 @@
             ttsOnOff.disabled = true;
             ttsVoiceSelect.disabled = true;
             ttsVoiceSelect.innerHTML = '<option value="">音声非対応</option>';
-            // ↓ここから追加↓
             ttsRateInput.disabled = true;
             ttsPitchInput.disabled = true;
             ttsVolumeInput.disabled = true;
-            // ↑ここまで追加↑
             return;
         }
 
@@ -2444,11 +2499,9 @@
             }
         }
         
-        // ↓ここから追加↓
         utterance.rate = ttsRate;
         utterance.pitch = ttsPitch;
         utterance.volume = ttsVolume;
-        // ↑ここまで追加↑
 
         window.speechSynthesis.speak(utterance);
         updateSpeechControlButtonVisibility(); // 発話開始時に音声停止ボタンを表示
@@ -2481,11 +2534,9 @@
         localStorage.setItem('soundType', soundTypeSelect.value);
         localStorage.setItem('ttsEnabled', ttsOnOff.checked);
         localStorage.setItem('ttsVoiceName', ttsVoiceSelect.value);
-        // ↓ここから追加↓
         localStorage.setItem('ttsRate', ttsRate.toString());
         localStorage.setItem('ttsPitch', ttsPitch.toString());
         localStorage.setItem('ttsVolume', ttsVolume.toString());
-        // ↑ここまで追加↑
     }
 
     function loadSettingsFromLocalStorage() {
@@ -2502,7 +2553,6 @@
         if (ttsVoiceSelect && savedVoiceName) {
             ttsVoiceSelect.value = savedVoiceName;
         }
-        // ↓ここから追加↓
         ttsRate = parseFloat(localStorage.getItem('ttsRate')) || 1.0;
         ttsPitch = parseFloat(localStorage.getItem('ttsPitch')) || 1.0;
         ttsVolume = parseFloat(localStorage.getItem('ttsVolume')) || 1.0;
@@ -2513,8 +2563,45 @@
         ttsPitchValue.textContent = ttsPitch.toFixed(1);
         ttsVolumeInput.value = ttsVolume;
         ttsVolumeValue.textContent = ttsVolume.toFixed(1);
-        // ↑ここまで追加↑
     }
+
+    // ローカルストレージの使用量をバイト単位で計算する関数
+    function getLocalStorageUsageBytes() {
+        let totalBytes = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            // キーと値の文字数に2を掛けてバイト数を概算します (UTF-16のコードユニット数をバイトとして概算)
+            totalBytes += (key.length + (value ? value.length : 0)) * 2;
+        }
+        return totalBytes;
+    }
+
+    // ローカルストレージの使用量表示を更新する関数
+    function updateLocalStorageUsageDisplay() {
+        const usageBytes = getLocalStorageUsageBytes();
+        const usageKB = (usageBytes / 1024).toFixed(2); // KB単位で表示
+        const usageMB = (usageBytes / (1024 * 1024)).toFixed(2); // MB単位で表示
+
+        const maxMB = (MAX_LOCAL_STORAGE_BYTES / (1024 * 1024)).toFixed(0);
+        const percentage = ((usageBytes / MAX_LOCAL_STORAGE_BYTES) * 100).toFixed(1);
+
+        if (localStorageUsageDisplay) {
+            localStorageUsageDisplay.textContent = `ローカルストレージ使用量: ${usageMB} MB / 約${maxMB} MB (${percentage}%)`;
+
+            if (percentage > 90) { // 90%を超えたら警告色
+                localStorageUsageDisplay.style.color = 'red';
+                localStorageUsageDisplay.title = 'ストレージ使用量が上限に近づいています！履歴の削除を強く推奨します。';
+            } else if (percentage > 70) { // 70%を超えたら注意色
+                localStorageUsageDisplay.style.color = 'orange';
+                localStorageUsageDisplay.title = 'ストレージ使用量が高めです。履歴の削除をご検討ください。';
+            } else {
+                localStorageUsageDisplay.style.color = '';
+                localStorageUsageDisplay.title = '';
+            }
+        }
+    }
+
 </script>
 
 </body>
